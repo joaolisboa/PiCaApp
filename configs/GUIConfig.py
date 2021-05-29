@@ -1,9 +1,10 @@
 from configs.Config import Config
 
-class GUIConfig:
+class GUIConfig(Config):
     config = []
 
     def __init__(self):
-        self.config = Config('/gui_config.json')
+        Config.__init__(self, '/gui_config.json')
 
-guiConfig = GUIConfig().config
+
+guiConfig = GUIConfig()
