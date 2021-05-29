@@ -11,6 +11,7 @@ I'm new to python, and even newer to the Pi Camera, so any help will be apprecia
 * Support for the different camera modules - will likely need someone to test and configure for the other V1 and V2 Cameras
 * Point and shoot mode - a mode that makes preview fullscreen and clicking will take a picture, long-clicking will take sequence of pictures or video
 * Grid overlay in preview
+* Capture in RAW+JPEG (https://github.com/schoolpost/PyDNG)
 
 ## Notes on camera preview and GUI
 With the Pi Camera the preview is tied to the camera resolution. This means that when taking a picture of a certain resolution, the preview may change if the res of the picture is different than the preview, but we change it back after the picture is taken. This also means the preview frame rate will depend on the set camera resolution.
