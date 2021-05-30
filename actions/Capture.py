@@ -8,3 +8,4 @@ class Capture:
 
     def run(self):
         return self.camera.capture(resolution=(4056, 3040))
+

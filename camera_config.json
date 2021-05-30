@@ -1,5 +1,6 @@
 {
     "show_on_start": true,
     "save_dir": "/home/pi/Pictures/HQ/",
-    "default_res": [2028, 1520]
+    "default_res": [2028, 1520],
+    "save_raw": true
 }

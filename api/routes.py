@@ -1,4 +1,5 @@
-from __main__ import app, camera, capture
+from __main__ import app, camera
+from actions.Action import Action
 from flask import request
 
 @app.route('/start', methods=['POST'])
@@ -14,5 +15,5 @@ def stop():
 
 @app.route('/capture-photo', methods=['POST'])
 def capturePhoto():
-    filename = capture.run()
+    filename = Action('capture').run()
     return (filename, 200)
