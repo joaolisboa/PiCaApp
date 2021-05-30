@@ -21,8 +21,14 @@ class CameraConfig(Config):
                 self.fullscreen = config['fullscreen']
 
             if 'window' in config or self.fullscreen == False:
-                self.previewWidth = config['window']['width']
-                self.previewHeight = config['window']['height']
+                # preferably use max width instead of width and height
+                # a max width will allow to properly determine the UI dimensions
+                if 'max_width' in config['window']:
+                    self.previewWidth = config['window']['max_width']
+                    self.previewHeight = round(self.previewWidth / (4/3))
+                else:
+                    self.previewWidth = config['window']['width']
+                    self.previewHeight = config['window']['height']
 
                 if 'x' in config['window']:
                     self.x = config['window']['x']

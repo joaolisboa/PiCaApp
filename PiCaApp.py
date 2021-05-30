@@ -1,4 +1,4 @@
-from Camera import Camera
+from Camera import camera
 from flask import Flask
 import atexit
 import logging
@@ -9,9 +9,8 @@ import threading
 logging.basicConfig(filename='app.log', filemode='w', format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 logging.warning('App started')
 
-window = Window()
 app = Flask(__name__)
-camera = Camera()
+window = Window()
 
 # define routes
 import api.routes

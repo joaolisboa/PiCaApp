@@ -2,10 +2,18 @@
     "preview": {
         "fullscreen": false,
         "window": {
-            "width": 532,
-            "height": 400,
-            "x": -22,
+            "max_width": 640,
+            "x": 0,
             "y": 0
         }
-    }
+    },
+    "buttons": [
+        {
+            "action": "capture",
+            "label": "Capture",
+            "icon": "todo",
+            "width": "auto",
+            "height": 200
+        }
+    ]
 }

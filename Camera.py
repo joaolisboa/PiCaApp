@@ -65,3 +65,5 @@ class Camera:
             self.camera.resolution = previousResolution
 
         return filename
+
+camera = Camera()

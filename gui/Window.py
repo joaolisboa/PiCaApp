@@ -1,6 +1,10 @@
 from tkinter import *
 from tkinter import ttk
+from configs.CameraConfig import cameraConfig
+from configs.GUIConfig import guiConfig
+from actions.Action import Action
 import os
+import logging
 
 class Window:
 
@@ -10,6 +14,8 @@ class Window:
             os.environ.__setitem__('DISPLAY', ':0.0')
 
         self.root = Tk()
+        self.windowWidth = self.root.winfo_screenwidth()
+        self.windowHeight = self.root.winfo_screenheight()
         
 
     def render(self):
@@ -17,5 +23,25 @@ class Window:
         self.root.attributes('-fullscreen', True)
         self.root.configure(bg='black')
 
-        mainframe = ttk.Frame(self.root)
+        # keep tracking of buttons placement to avoid overlapping
+        heightIndex = 0
+        widthIndex = cameraConfig.previewWidth
+
+        # render buttons from gui config
+        for button in guiConfig.buttons():
+            label = button['label']
+            buttonHeight = button['height']
+            buttonWidth = (self.windowWidth-cameraConfig.previewWidth) if button['width'] == 'auto' else button['width']
+
+            if (widthIndex + buttonWidth) > self.windowWidth:
+                logging.warning('GUI warning: buttons outside of frame') 
+
+            action = Action('capture')
+            btn = ttk.Button(self.root, text=label, command=lambda: action.run())
+            print(widthIndex)
+            btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
+
+            heightIndex += buttonHeight
+            widthIndex += buttonWidth
+
         self.root.mainloop()

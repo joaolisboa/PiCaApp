@@ -1,4 +1,4 @@
-from __main__ import camera
+from Camera import camera
 from actions.Capture import Capture
 
 class Action:
