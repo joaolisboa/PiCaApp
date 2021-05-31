@@ -30,6 +30,7 @@ def webserver(sharedState):
 def main():
     sharedState = State(camera)
     uiThread = threading.Thread(target=webserver, args=(sharedState,))
+    uiThread.daemon = True
     uiThread.start()
 
     window.render()

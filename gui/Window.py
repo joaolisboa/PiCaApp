@@ -48,6 +48,7 @@ class Window:
                 # move to next line
                 widthIndex = cameraConfig.previewWidth
 
+        # for testing purposes
         def close():
             sys.exit()
 
