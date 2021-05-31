@@ -1,4 +1,4 @@
-from Camera import camera
+from Camera import Camera
 from flask import Flask
 import atexit
 import logging
@@ -10,7 +10,8 @@ logging.basicConfig(filename='app.log', filemode='w', format='%(asctime)s - %(me
 logging.warning('App started')
 
 app = Flask(__name__)
-window = Window()
+camera = Camera()
+window = Window(camera)
 
 # define routes
 import api.routes
@@ -27,7 +28,7 @@ def webserver(sharedState):
 
 # run flask webserver in separate thread
 def main():
-    sharedState = State()
+    sharedState = State(camera)
     uiThread = threading.Thread(target=webserver, args=(sharedState,))
     uiThread.start()
 

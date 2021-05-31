@@ -2,5 +2,6 @@
     "show_on_start": true,
     "save_dir": "/home/pi/Pictures/HQ/",
     "default_res": [2028, 1520],
-    "save_raw": true
+    "save_raw": false,
+    "capture_delay": 0.2
 }

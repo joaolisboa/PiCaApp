@@ -2,13 +2,15 @@ from tkinter import *
 from tkinter import ttk
 from configs.CameraConfig import cameraConfig
 from configs.GUIConfig import guiConfig
-from actions.Action import Action
+from Camera import Camera
 import os
+import sys
 import logging
 
 class Window:
 
-    def __init__(self):
+    def __init__(self, camera: Camera):
+        self.camera = camera
         if os.environ.get('DISPLAY','') == '':
             print('No display found. Using :0.0')
             os.environ.__setitem__('DISPLAY', ':0.0')
@@ -36,12 +38,20 @@ class Window:
             if (widthIndex + buttonWidth) > self.windowWidth:
                 logging.warning('GUI warning: buttons outside of frame') 
 
-            action = Action('capture')
+            action = self.camera.action('capture')
             btn = ttk.Button(self.root, text=label, command=lambda: action.run())
-            print(widthIndex)
             btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
 
             heightIndex += buttonHeight
             widthIndex += buttonWidth
+            if (widthIndex + buttonWidth) > self.windowWidth:
+                # move to next line
+                widthIndex = cameraConfig.previewWidth
+
+        def close():
+            sys.exit()
+
+        btn = ttk.Button(self.root, text='Close', command= close)
+        btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
 
         self.root.mainloop()

@@ -2,6 +2,7 @@ from picamera import PiCamera
 from datetime import datetime
 from Utils import wakeDisplay
 from time import sleep
+from actions.Action import Action
 from configs.CameraConfig import cameraConfig
 from configs.GUIConfig import guiConfig
 from io import BytesIO
@@ -9,7 +10,6 @@ from pydng.core import RPICAM2DNG
 import logging
 
 class Camera:
-    saveDir = '/home/pi/Pictures/HQ/'
 
     def __init__(self):
         self.camera = PiCamera()
@@ -18,7 +18,7 @@ class Camera:
             self.start(guiConfig.get('preview'))
 
     def newFilename(self):
-        return self.saveDir + 'PIC_'+ datetime.now().strftime("%m%d%Y_%H_%M_%S")
+        return cameraConfig.get('save_dir') + 'PIC_'+ datetime.now().strftime("%m%d%Y_%H_%M_%S")
 
     def start(self, config, warmup = False):
         wakeDisplay()
@@ -43,8 +43,13 @@ class Camera:
         self.stop()
         self.camera.close()
 
+    def action(self, action):
+        return Action(self, action)
+
     def capture(self, resolution):
         wakeDisplay()
+        # set a delay for taking a picture - helps stabilizing when holding the camera in hand after pressing the display
+        sleep(cameraConfig.get('capture_delay'))
         previousResolution = self.camera.resolution
         self.camera.resolution = resolution
         filename = self.newFilename()
@@ -65,5 +70,3 @@ class Camera:
             self.camera.resolution = previousResolution
 
         return filename
-
-camera = Camera()

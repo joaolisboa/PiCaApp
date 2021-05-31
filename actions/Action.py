@@ -1,11 +1,11 @@
-from Camera import camera
 from actions.Capture import Capture
 
 class Action:
 
-    def __init__(self, action):
+    def __init__(self, camera, action):
         self.action = action
+        self.camera = camera
 
     def run(self):
         if self.action == 'capture':
-            return Capture(camera).run()
+            return Capture(self.camera).run()

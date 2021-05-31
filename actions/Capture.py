@@ -1,9 +1,7 @@
-from Camera import Camera
-
 
 class Capture:
 
-    def __init__(self, camera: Camera):
+    def __init__(self, camera):
         self.camera = camera
 
     def run(self):
