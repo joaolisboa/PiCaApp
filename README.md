@@ -36,7 +36,7 @@ I'm using pipenv for now but I'm having an issue with the lock file. After insta
 
 
 ## Notes on camera preview and GUI
-With the Pi Camera the preview is tied to the camera resolution. This means that when taking a picture of a certain resolution, the preview may change if the res of the picture is different than the preview, but we change it back after the picture is taken. This also means the preview frame rate will depend on the set camera resolution.
+With the Pi Camera the preview is tied to the camera resolution. This means that when taking a picture of a certain resolution, the preview may change if the res of the picture is different than the preview, but we change it back after the picture is taken. This also means the preview frame rate will depend on the set camera resolution, which is why I've decided to have a config for preview res separate from camera res. This way you can keep the preview running at a faster framerate than if you'd set at the max camera resolution.
 
 The `gui_config.json` and `camera_config.json` files have settings to set these values(later will allow configuring from GUI and API). This means that in order for the GUI to be properly set, it's best to ensure the camera res and preview size are the same aspect ratio. If the videos and pictures you're going to take are of different aspect ratios(ie. video in 16:9 and pictures in 4:3), then ideally the GUI configurations should be ready to handle both.
 
