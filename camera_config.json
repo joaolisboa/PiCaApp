@@ -1,7 +1,15 @@
 {
     "show_on_start": true,
     "save_dir": "/home/pi/Pictures/HQ/",
-    "default_res": [2028, 1520],
+    "filename_format": {
+        "prepend_photo": "PIC_",
+        "prepend_video": "MOV_",
+        "date_format": "%m%d%Y_%H_%M_%S"
+    },
+    "capture_format": "jpeg",
+    "recording_format": "h264",
+    "preview_res": [2028, 1520],
+    "camera_res": [4056, 3040],
     "save_raw": false,
-    "capture_delay": 0.2
+    "capture_delay": 0.3
 }

@@ -19,9 +19,12 @@ class Config:
             json.dump(self.data, jsonFile, indent=4)
             jsonFile.close()
 
-    def get(self, key):
+    def get(self, key, **value):
         if key in self.data:
             return self.data[key]
+        # return default value if no value in config is set
+        if 'default' in value:
+            return value['default']
         return False
 
     def set(self, key, value):
