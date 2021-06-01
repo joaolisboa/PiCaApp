@@ -29,16 +29,18 @@ class Window:
         heightIndex = 0
         widthIndex = cameraConfig.previewWidth
 
+        # todo - organize code, add validations, add support for more complex placement
         # render buttons from gui config
         for button in guiConfig.buttons():
             label = button['label']
             buttonHeight = button['height']
+            buttonAction = button['action']
             buttonWidth = (self.windowWidth-cameraConfig.previewWidth) if button['width'] == 'auto' else button['width']
 
             if (widthIndex + buttonWidth) > self.windowWidth:
                 logging.warning('GUI warning: buttons outside of frame') 
 
-            action = self.camera.action('capture')
+            action = self.camera.action(buttonAction)
             btn = ttk.Button(self.root, text=label, command=lambda: action.run())
             btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
 

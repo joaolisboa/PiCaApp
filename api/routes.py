@@ -19,3 +19,9 @@ def capturePhoto():
     camera = app.config['SHARED'].camera
     filename = camera.action('capture').run()
     return (filename, 200)
+
+@app.route('/record-video', methods=['POST'])
+def recordVideo():
+    camera = app.config['SHARED'].camera
+    filename = camera.action('record').run()
+    return (filename, 200)

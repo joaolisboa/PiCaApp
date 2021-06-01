@@ -13,7 +13,14 @@
             "label": "Capture",
             "icon": "todo",
             "width": "auto",
-            "height": 200
+            "height": 140
+        },
+        {
+            "action": "record",
+            "label": "Record",
+            "icon": "todo",
+            "width": "auto",
+            "height": 140
         }
     ]
 }

@@ -14,13 +14,18 @@ class Camera:
     CAPTURE = 'capture'
     RECORDING = 'recording'
     # add support for the remaining formats - validate which requires additional logic, like in the case of raw
-    SUPPORTED_FORMATS = ('jpeg', 'png')
-    DEFAULT_FORMAT = 'jpeg'
+    SUPPORTED_CAPTURE_FORMATS = ('jpeg', 'png')
+    DEFAULT_CAPTURE_FORMAT = 'jpeg'
+
+    SUPPORTED_RECORDING_FORMATS = ('h264', 'mjpeg')
+    DEFAULT_RECORDING_FORMAT = 'h264'
 
     def __init__(self):
         self.camera = PiCamera()
+        self.recording = False
         self.camera.resolution = cameraConfig.get('preview_res')
-        self.photoResolution = cameraConfig.get('camera_res')
+        self.captureResolution = cameraConfig.get('capture_res')
+        self.recordingResolution = cameraConfig.get('recording_res')
         if cameraConfig.get('show_on_start'):
             self.start(guiConfig.get('preview'))
 
@@ -80,16 +85,15 @@ class Camera:
         wakeDisplay()
         # set a delay for taking a picture - helps stabilizing when holding the camera in hand after pressing the display
         sleep(cameraConfig.get('capture_delay'))
-        previousResolution = self.camera.resolution
         self.camera.resolution = self.photoResolution
         filename = self.newFilename(Camera.CAPTURE)
 
         if filename:
-            captureFormat = cameraConfig.get('capture_format', default=Camera.DEFAULT_FORMAT)
+            captureFormat = cameraConfig.get('capture_format', default=Camera.DEFAULT_CAPTURE_FORMAT)
 
-            if captureFormat not in Camera.SUPPORTED_FORMATS:
+            if captureFormat not in Camera.SUPPORTED_CAPTURE_FORMATS:
                 logging.error('CAMERA error: specified capture format is not supported. Defaulting to "jpeg" format')
-                captureFormat = Camera.DEFAULT_FORMAT
+                captureFormat = Camera.DEFAULT_CAPTURE_FORMAT
 
             path = cameraConfig.get('save_dir') + filename
             self.camera.capture(path + '.' + captureFormat, format=captureFormat)
@@ -99,15 +103,43 @@ class Camera:
                 stream = BytesIO()
                 self.camera.capture(stream, format='jpeg', bayer=True)
                 # restore previous resolution before processing file
-                self.camera.resolution = previousResolution
+                self.camera.resolution = cameraConfig.get('preview_res')
                 d = RPICAM2DNG()
                 output = d.convert(stream)
                 with open(path + '.dng', 'wb') as f:
                     f.write(output)
             else:
                 # restore previous resolution
-                self.camera.resolution = previousResolution
+                self.camera.resolution = cameraConfig.get('preview_res')
 
             return path
 
         return ''
+
+    def record(self):
+        print('recording: ' + str(self.recording))
+        if self.recording:
+            self.camera.stop_recording()
+            self.camera.resolution = cameraConfig.get('preview_res')
+            return ''
+        else:
+            wakeDisplay()
+            # set a delay for taking a picture - helps stabilizing when holding the camera in hand after pressing the display
+            sleep(cameraConfig.get('capture_delay'))
+            self.camera.resolution = self.recordingResolution
+            filename = self.newFilename(Camera.RECORDING)
+
+            if filename:
+                recordingFormat = cameraConfig.get('recording_format', default=Camera.DEFAULT_RECORDING_FORMAT)
+
+                if recordingFormat not in Camera.SUPPORTED_RECORDING_FORMATS:
+                    logging.error('CAMERA error: specified recording format is not supported. Defaulting to "h264" format')
+                    recordingFormat = Camera.DEFAULT_RECORDING_FORMAT
+
+                path = cameraConfig.get('save_dir') + filename
+                self.camera.start_recording(path + '.' + recordingFormat, format=recordingFormat)
+                self.recording = True
+
+                return path
+
+            return ''

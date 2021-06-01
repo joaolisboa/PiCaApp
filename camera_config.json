@@ -9,7 +9,8 @@
     "capture_format": "jpeg",
     "recording_format": "h264",
     "preview_res": [2028, 1520],
-    "camera_res": [4056, 3040],
+    "capture_res": [4056, 3040],
+    "recording_res": [1920, 1080],
     "save_raw": false,
     "capture_delay": 0.3
 }
