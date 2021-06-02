@@ -19,6 +19,11 @@ class Window:
         self.windowWidth = self.root.winfo_screenwidth()
         self.windowHeight = self.root.winfo_screenheight()
         
+    def buttonAction(self, action):
+        return self.camera.action(action).run()
+
+    def close(self):
+        sys.exit()
 
     def render(self):
         self.root.title(__name__)
@@ -34,14 +39,12 @@ class Window:
         for button in guiConfig.buttons():
             label = button['label']
             buttonHeight = button['height']
-            buttonAction = button['action']
             buttonWidth = (self.windowWidth-cameraConfig.previewWidth) if button['width'] == 'auto' else button['width']
 
             if (widthIndex + buttonWidth) > self.windowWidth:
                 logging.warning('GUI warning: buttons outside of frame') 
 
-            action = self.camera.action(buttonAction)
-            btn = ttk.Button(self.root, text=label, command=lambda: action.run())
+            btn = ttk.Button(self.root, text=label, command=lambda button=button: self.buttonAction(button['action']))
             btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
 
             heightIndex += buttonHeight
@@ -51,10 +54,7 @@ class Window:
                 widthIndex = cameraConfig.previewWidth
 
         # for testing purposes
-        def close():
-            sys.exit()
-
-        btn = ttk.Button(self.root, text='Close', command= close)
+        btn = ttk.Button(self.root, text='Close', command= self.close)
         btn.place(x=widthIndex, y=heightIndex, height = buttonHeight, width = buttonWidth)
 
         self.root.mainloop()
