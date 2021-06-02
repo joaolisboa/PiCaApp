@@ -13,10 +13,32 @@ I'm new to python, and even newer to the Pi Camera, so any help will be apprecia
 - [ ] Grid overlay in preview
 - [x] Capture in RAW+JPEG (https://github.com/schoolpost/PyDNG)
 
-## Notes on camera preview and GUI
-With the Pi Camera the preview is tied to the camera resolution. This means that when taking a picture of a certain resolution, the preview may change if the res of the picture is different than the preview, but we change it back after the picture is taken. This also means the preview frame rate will depend on the set camera resolution.
+## Current features
 
-The `gui_config.json` and `camera_config.json` files have settings to set these values(later will allow configuring from GUI and API). This means that in order for the GUI to be properly set, it's best to ensure the camera res and preview size are the same aspect ratio. Ideally, if the videos and pictures you're going to take are of different aspect ratios(ie. video in 16:9 and pictures in 4:3), then ideally the GUI configurations should be ready to handle both.
+For now the app works as a basic capture and recorder with some configurable GUI like setting preview resolution, size and position. Buttons with capture and recording actions. And a few configurations for filename format, saving raw, capture and recording resolution and others.
+
+* Configurable preview(res, size, position), camera res and video res
+* Buttons to capture photo and record video
+* API to capture and record
+* Capture RAW alongside JPEG/PNG
+
+The next step is to add the remaining actions and configurables(ie. AWB or ISO) as sliders or options and work on structuring the layouts and expanding the configurations for placing these UI elements.
+
+## Installation
+
+```
+git clone https://github.com/joaolisboa/PiCaApp.git
+cd PiCaApp
+pipenv install
+```
+
+I'm using pipenv for now but I'm having an issue with the lock file. After installing PyDNG through pipenv it gets stuck in the `Locking` step. But force closing and then starting the app: `python3 PiCaApp.py` should work.
+
+
+## Notes on camera preview and GUI
+With the Pi Camera the preview is tied to the camera resolution. This means that when taking a picture of a certain resolution, the preview may change if the res of the picture is different than the preview, but we change it back after the picture is taken. This also means the preview frame rate will depend on the set camera resolution, which is why I've decided to have a config for preview res separate from camera res. This way you can keep the preview running at a faster framerate than if you'd set at the max camera resolution.
+
+The `gui_config.json` and `camera_config.json` files have settings to set these values(later will allow configuring from GUI and API). This means that in order for the GUI to be properly set, it's best to ensure the camera res and preview size are the same aspect ratio. If the videos and pictures you're going to take are of different aspect ratios(ie. video in 16:9 and pictures in 4:3), then ideally the GUI configurations should be ready to handle both.
 
 I'm still developing the GUI but the idea is to try and minimize these issues when it's ready. When taking pictures or video, the max width or max height of the preview should never come in the way of any part of the interface while always allowing you to see the full preview.
 
