@@ -25,3 +25,16 @@ def recordVideo():
     camera = app.config['SHARED'].camera
     filename = camera.action('record').run()
     return (filename, 200)
+
+@app.route('/set-option', methods=['POST'])
+def setOption():
+    requestData = request.get_json()
+    if 'option' not in requestData:
+        return ('Missing option parameter', 400)
+
+    if 'value' not in requestData:
+        return ('Missing value parameter', 400) 
+    
+    camera = app.config['SHARED'].camera
+    result = camera.option(requestData['option'], requestData['value']).run()
+    return (result, 200)
